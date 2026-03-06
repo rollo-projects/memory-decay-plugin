@@ -1,0 +1,36 @@
+{
+  "name": "openclaw-memory-decay",
+  "version": "0.1.0",
+  "description": "Human-like memory decay plugin for OpenClaw — Ebbinghaus curve, recall reinforcement, and associative activation",
+  "license": "MIT",
+  "type": "module",
+  "main": "src/index.ts",
+  "files": [
+    "src",
+    "openclaw.plugin.json"
+  ],
+  "keywords": [
+    "openclaw",
+    "openclaw-plugin",
+    "memory",
+    "decay",
+    "ebbinghaus",
+    "cognitive"
+  ],
+  "dependencies": {
+    "@sinclair/typebox": "^0.34.0",
+    "better-sqlite3": "^11.0.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.0",
+    "typescript": "^5.5.0",
+    "vitest": "^4.0.18"
+  },
+  "peerDependencies": {
+    "openclaw": ">=0.50.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  }
+}

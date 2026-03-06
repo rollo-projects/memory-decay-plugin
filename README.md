@@ -22,9 +22,22 @@ When the agent retrieves memories, results are ranked by `decay_score × relevan
 
 ## Status
 
-🔬 **Research phase** — collecting papers, studying OpenClaw plugin architecture, planning implementation.
+✅ **Working prototype** — plugin implemented with full test coverage (34 tests). Ready for trial deployment.
 
-See `docs/plans/` for research notes and architecture plans.
+### Features implemented
+- Ebbinghaus forgetting curve (configurable half-life)
+- ACT-R recall reinforcement (spaced repetition)
+- Ontology graph spreading activation (entity association boost)
+- Fallback safety (graceful degradation to base memory tools)
+- Structured logging (info/debug/warn)
+- Diagnostic tools (`memory_decay_status`, `memory_set_importance`)
+
+### Installation
+```bash
+# Add to OpenClaw config:
+# plugins.load.paths: ["~/Developer/memory-decay-plugin"]
+# plugins.slots.memory: "memory-decay"
+```
 
 ## Key References
 
