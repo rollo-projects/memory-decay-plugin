@@ -5,7 +5,7 @@ tools: Read, Write, Edit, Bash, Glob, Grep
 model: sonnet
 maxTurns: 15
 permissionMode: acceptEdits
----
+memory: project---
 
 You are a test engineer for the memory-decay OpenClaw plugin.
 

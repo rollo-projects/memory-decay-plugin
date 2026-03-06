@@ -5,7 +5,7 @@ tools: Read, Write, Edit, Bash, Glob, Grep
 model: opus
 maxTurns: 25
 permissionMode: acceptEdits
----
+memory: project---
 
 You are a plugin developer for memory-decay — a human-like memory plugin for OpenClaw with Ebbinghaus decay curve, recall reinforcement, and spreading activation.
 
