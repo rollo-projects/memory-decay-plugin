@@ -2,7 +2,8 @@
 name: plugin-developer
 description: "Develop the memory-decay plugin — decay scoring, SQLite storage, ontology integration, OpenClaw plugin SDK. Use for any feature/implementation work.\n\nExamples:\n\n<example>\nuser: \"Implement the recall reinforcement logic\"\nassistant: Uses plugin-developer for decay algorithm work.\n</example>\n\n<example>\nuser: \"Add spreading activation from the ontology graph\"\nassistant: Uses plugin-developer for graph integration.\n</example>\n\n<example>\nuser: \"Fix the SQLite metadata store\"\nassistant: Uses plugin-developer for storage layer.\n</example>"
 tools: Read, Write, Edit, Bash, Glob, Grep
-model: opus
+model: sonnet
+maxTurns: 25
 permissionMode: acceptEdits
 memory: project
 ---

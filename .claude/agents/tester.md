@@ -3,6 +3,7 @@ name: tester
 description: "Write and run tests for memory-decay plugin. Use for testing tasks.\n\nExamples:\n\n<example>\nuser: \"Add tests for the spreading activation\"\nassistant: Uses tester for test creation.\n</example>\n\n<example>\nuser: \"The decay tests are failing\"\nassistant: Uses tester for debugging tests.\n</example>"
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: sonnet
+maxTurns: 15
 permissionMode: acceptEdits
 memory: project
 ---
