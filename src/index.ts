@@ -507,6 +507,7 @@ const memoryDecayPlugin = {
   kind: "memory" as const,
 
   register(api: PluginApi) {
+    api.logger.info("memory-decay: register() called, starting init...");
     const rawConfig = api.pluginConfig ?? {};
     const config: DecayPluginConfig = {
       halfLifeDays: (rawConfig.halfLifeDays as number) ?? DEFAULT_CONFIG.halfLifeDays,
@@ -518,7 +519,28 @@ const memoryDecayPlugin = {
       ontologyPath: (rawConfig.ontologyPath as string) ?? DEFAULT_CONFIG.ontologyPath,
     };
 
-    const workspaceDir: string = api.resolvePath(".");
+    // Resolve workspace directory for plugin data storage.
+    // api.resolvePath(".") can return "/" when workspace is unresolved, and
+    // process.cwd() is "/" under launchd (no WorkingDirectory in plist).
+    // Fallback chain: resolvePath → api.config.workspace → HOME/clawd → cwd
+    const resolveWorkspace = (): string => {
+      try {
+        const rp = api.resolvePath(".");
+        if (rp && rp !== "/") return rp;
+      } catch { /* ignore */ }
+      // Try workspace from config (api.config may have it)
+      const cfgWs = (api.config as Record<string, unknown>)?.workspace;
+      if (typeof cfgWs === "string" && cfgWs && cfgWs !== "/") {
+        const { homedir } = require("os");
+        return cfgWs.startsWith("~") ? cfgWs.replace("~", homedir()) : cfgWs;
+      }
+      // Fallback to HOME-based path
+      const home = process.env.HOME || require("os").homedir();
+      if (home) return resolve(home, "clawd");
+      return process.cwd();
+    };
+    const workspaceDir = resolveWorkspace();
+    api.logger.info(`memory-decay: resolved workspace = ${workspaceDir}`);
     const dbDir = resolve(workspaceDir, ".memory-decay");
 
     let store: MetadataStore;
@@ -526,6 +548,7 @@ const memoryDecayPlugin = {
       mkdirSync(dbDir, { recursive: true });
       const dbPath = resolve(dbDir, "metadata.db");
       store = new MetadataStore(dbPath);
+      api.logger.info(`memory-decay: SQLite initialized at ${dbPath}`);
     } catch (err) {
       api.logger.warn(
         `memory-decay: SQLite init failed (${err instanceof Error ? err.message : err}), plugin disabled — falling through to base memory tools`,
@@ -859,6 +882,7 @@ const memoryDecayPlugin = {
     api.registerTool(toolFactory, {
       names: ["memory_search", "memory_get", "memory_decay_status", "memory_set_importance"],
     });
+    api.logger.info("memory-decay: tools registered successfully ✅");
 
     // Cleanup on gateway stop
     api.on("gateway_stop", () => {
